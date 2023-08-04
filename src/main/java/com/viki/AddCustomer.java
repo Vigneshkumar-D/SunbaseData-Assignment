@@ -78,7 +78,7 @@ public class AddCustomer extends HttpServlet {
                     .uri(URI.create(urlWithParams))
                     .header("Authorization", "Bearer " + accessToken)
                     .header("Content-Type", "application/json")	
-                    .POST(HttpRequest.BodyPublishers.ofString(customerJson)) // Send the request with an empty body
+                    .POST(HttpRequest.BodyPublishers.ofString(customerJson)) 
                     .build();
 
             HttpResponse<String> httpResponse = httpClient.send(req, HttpResponse.BodyHandlers.ofString());

@@ -15,6 +15,24 @@
     <script src="https://kit.fontawesome.com/a2207303c3.js" crossorigin="anonymous"></script>
 </head>
 <body>
+      <% boolean isAuthenticated = false;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+            	
+                if (cookie.getName().equals("access_token")) {
+                	System.out.println(cookie.getValue());
+                    isAuthenticated = true;
+                    break;
+                }
+            }
+        }
+        if(!isAuthenticated){
+        	 response.sendRedirect("Login.jsp");
+        }
+        System.out.println(isAuthenticated);
+        
+    %>
     <div class="home-container">
     	<div class="top-con">
     		<button type="button" class="custom-btn" onclick="toggleForm()" id="addCustomer">Add Customer</button>
@@ -75,16 +93,7 @@
 	    	</form>
 	    </div>
     	</div>
-    	
-    	<% String first_name = request.getParameter("first_name"); %>
-	    <% String last_name = request.getParameter("last_name"); %>
-	    <% String street = request.getParameter("street"); %>
-	    <% String address = request.getParameter("address"); %>
-	    <% String city = request.getParameter("city"); %>
-	    <% String state = request.getParameter("state"); %>
-	    <% String email = request.getParameter("email"); %>
-	    <% String phone = request.getParameter("phone"); %> 
-	    <% System.out.println("request: "+request.getContentLength()); %>
+ 
 	    <div class="update-form-container" id="updateFormContainer">
     	<div class="form-sub-container" id="updateForm" style="display: none;">
             		<h1 class="cust-details">Update Customer</h1>
@@ -158,13 +167,13 @@
         };
   
         function updateContent(customers) {
-            // Get the 'customers' variable from JSTL
+           
             var contentDiv = document.getElementById("responseDiv");
             
             if (customers.length > 0) {
-                // Clear existing content
+                
                 contentDiv.innerHTML = "";
-                // Loop through customers and update content
+               
                 customers.forEach(function(customer) {
                 	var contentSubDiv = document.createElement("div");
                     contentSubDiv.classList.add("content-sub-container");
@@ -253,7 +262,7 @@
                     contentDiv.appendChild(contentSubDiv);
                 });
             } else {
-                // If no customers, show appropriate message
+                
                 contentDiv.innerHTML = "<p>No customer data available.</p>";
             }
         }
@@ -291,7 +300,7 @@
         
         
         document.getElementById("customerForm").addEventListener("submit", function (event) {
-        	  event.preventDefault(); // Prevent the default form submission
+        	  event.preventDefault(); 
 
         	 
         	  const formData = new FormData(event.target);
@@ -313,17 +322,16 @@
         	    })
         	    .catch((error) => {
         	      console.error("Error:", error);
-        	      // Handle error scenario here if needed
+        	     
         	    });
         	});
         	
         document.getElementById("myForm").addEventListener("submit", function (event) {
-      	  event.preventDefault(); // Prevent the default form submission
-
-      	  // Gather the form data
+      	  event.preventDefault(); 
+      	  
       	  const formData = new FormData(event.target);
 
-      	  // Make the API call using fetch
+      	 
       	  fetch("<%= request.getContextPath() %>/Update", {
       	    method: "POST",
       	    body: formData,
@@ -335,24 +343,17 @@
       	      return response.json();
       	    })
       	    .then((responseData) => {
-      	      // Process the API response data if needed
+      	      
       	      
       	      console.log("API Response:", responseData);
-      	      // Optionally, update the content on the page or perform other actions
+      	      
       	    })
       	    .catch((error) => {
       	      console.error("Error:", error);
-      	      // Handle error scenario here if needed
+      	     
       	    });
       	});
-
-
-
-
-
-        
-         
-        
+     
     </script>
 </body>
 </html>

@@ -32,10 +32,13 @@
 	  margin-top: 10px;
 }
 .customer-list{
-	align-self: center;
+	font-size: 30px;
 	margin-top: 0px;
-	margin-left: 33%;
-	margin-bottom: 10px;
+	margin-left: 35%;
+	font-weight: 600;
+	font-family: "Roboto";
+	text-align: center;
+	align-self: center;
 }
 .bottom-com{
 	display: flex;
@@ -66,6 +69,7 @@
 	  text-align: left;
 	  align-self: center;
 	  padding-left: 1%;
+	  
 }
 
 .key-lname{

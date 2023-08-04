@@ -38,26 +38,26 @@ public class Delete extends HttpServlet {
                 }
             }
 
-            // Encode the cmd parameter to handle special characters in the URL
+            
             String encodedCmdParam = URLEncoder.encode(cmdParam, StandardCharsets.UTF_8);
             String encodedUuidParam = URLEncoder.encode(uuid, StandardCharsets.UTF_8);
-            // Append the cmd parameter to the URL
+            
             String urlWithParams = apiURL + "?cmd=" + encodedCmdParam+"&uuid=" + encodedUuidParam;
 
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(urlWithParams))
                     .header("Authorization", "Bearer " + accessToken)
-                    .POST(HttpRequest.BodyPublishers.noBody()) // Send the request with an empty body
+                    .POST(HttpRequest.BodyPublishers.noBody()) 
                     .build();
 
             HttpResponse<String> httpResponse = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
 
-            // Check the response status code
+            
             int statusCode = httpResponse.statusCode();
             System.err.println("Delete Status: "+statusCode);
             if (statusCode == 200) {
-                // Process the response data
+                
                 String responseData = httpResponse.body();
                 System.err.println(responseData);
                 
@@ -70,7 +70,7 @@ public class Delete extends HttpServlet {
                 dispatcher.forward(request, response);
                 
             } else {
-                // Handle the case when the API returns a non-200 status code
+                
                 System.err.println("API Request Failed with response code: " + statusCode);
             }
 

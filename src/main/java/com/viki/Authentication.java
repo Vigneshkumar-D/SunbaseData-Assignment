@@ -1,11 +1,10 @@
 package com.viki;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+
 import java.net.URI;
-import java.net.URL;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -14,17 +13,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //@WebServlet("/Authentication")
 public class Authentication extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
@@ -51,16 +52,20 @@ public class Authentication extends HttpServlet {
             HttpResponse<String> httpResponse = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             
             String responseData = httpResponse.body();
+            System.out.println("In Auth RES"+responseData);
             User user = objectMapper.readValue(responseData, User.class);
             String accessToken = user.getAccessToken();
             int statusCode = httpResponse.statusCode();
-            
+            System.out.println("In Auth "+ accessToken);
             if(statusCode == 200) {
             	 Cookie tokenCookie = new Cookie("access_token", accessToken);
                  tokenCookie.setHttpOnly(true); 
                  tokenCookie.setMaxAge(3600); 
                  response.addCookie(tokenCookie);
             	 response.sendRedirect("Home.jsp");
+            }else {
+   
+                response.sendRedirect("Login.jsp?error=1");
             }
             
         } catch (IOException | InterruptedException e) {

@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.tribes.util.Arrays;
 
@@ -26,7 +27,7 @@ public class Home extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String apiURL = "https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp";
+    	String apiURL = "https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp";
         String cmdParam = "get_customer_list"; 
         System.out.println("In Home");
         try {
@@ -41,10 +42,10 @@ public class Home extends HttpServlet {
                 }
             }
 
-            // Encode the cmd parameter to handle special characters in the URL
+            
             String encodedCmdParam = URLEncoder.encode(cmdParam, StandardCharsets.UTF_8);
 
-            // Append the cmd parameter to the URL
+            
             String urlWithParams = apiURL + "?cmd=" + encodedCmdParam;
 
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -56,23 +57,23 @@ public class Home extends HttpServlet {
 
             HttpResponse<String> httpResponse = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
 
-            // Check the response status code
+            
             int statusCode = httpResponse.statusCode();
 
             if (statusCode == 200) {
-                // Process the response data
+                
                 String responseData = httpResponse.body();
                 
                 response.setContentType("application/json");
 
-                // Write the JSON data to the response
+               
 	                PrintWriter out = response.getWriter();
 	                out.print(responseData);
 	                out.flush();
               
                 
             } else {
-                // Handle the case when the API returns a non-200 status code
+                
                 System.err.println("API Request Failed with response code: " + statusCode);
             }
 

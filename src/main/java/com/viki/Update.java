@@ -86,7 +86,7 @@ public class Update extends HttpServlet {
 
             HttpResponse<String> httpResponse = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             
-            String responseData = httpResponse.body();
+            
             int statusCode = httpResponse.statusCode();
             System.err.println("Add Cust Status: "+statusCode);
             if (statusCode == 200) {
